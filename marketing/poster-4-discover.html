@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1080px; height: 1920px; overflow: hidden; background: #090007; font-family: 'Cairo', sans-serif; }
+.poster { width: 1080px; height: 1920px; background: #090007; position: relative; display: flex; flex-direction: column; align-items: center; }
+.corner { position: absolute; width: 60px; height: 60px; border-color: #C9A84C; border-style: solid; }
+.corner.tl { top: 30px; left: 30px; border-width: 2px 0 0 2px; }
+.corner.tr { top: 30px; right: 30px; border-width: 2px 2px 0 0; }
+.corner.bl { bottom: 30px; left: 30px; border-width: 0 0 2px 2px; }
+.corner.br { bottom: 30px; right: 30px; border-width: 0 2px 2px 0; }
+.headline-section { margin-top: 160px; text-align: center; }
+.number-big { font-size: 200px; font-weight: 900; color: #1A000F; line-height: 1; position: relative; z-index: 0; }
+.number-label { font-size: 36px; color: #C9A84C; letter-spacing: 3px; text-transform: uppercase; margin-top: -30px; position: relative; z-index: 1; }
+.main-ar { font-size: 72px; font-weight: 900; color: #fff; direction: rtl; text-align: center; line-height: 1.2; margin-top: 40px; }
+.main-en { font-size: 42px; font-weight: 300; color: #C9A84C; letter-spacing: 3px; text-align: center; margin-top: 16px; text-transform: uppercase; }
+.hline { width: 120px; height: 1px; background: #C9A84C; margin: 50px auto; }
+.stats-row { display: flex; justify-content: center; gap: 80px; margin-top: 30px; }
+.stat { text-align: center; }
+.stat-num { font-size: 64px; font-weight: 900; color: #C9A84C; line-height: 1; }
+.stat-label-en { font-size: 20px; color: #888; letter-spacing: 3px; text-transform: uppercase; margin-top: 8px; }
+.stat-label-ar { font-size: 22px; color: #888; direction: rtl; }
+.map-visual { margin-top: 70px; }
+.sub-text { margin-top: 60px; text-align: center; padding: 0 100px; }
+.sub-ar { font-size: 38px; color: #E8D5A3; direction: rtl; font-weight: 400; line-height: 1.5; }
+.sub-en { font-size: 26px; color: #666; margin-top: 16px; font-weight: 300; line-height: 1.5; }
+.logo-bottom { position: absolute; bottom: 60px; display: flex; align-items: center; gap: 20px; }
+.logo-name { font-size: 32px; font-weight: 700; color: #C9A84C; letter-spacing: 5px; }
+</style>
+</head><body>
+<div class="poster">
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
+
+  <div class="headline-section">
+    <div class="number-big">500+</div>
+    <div class="number-label">Expert Barbers · حلاق محترف</div>
+  </div>
+
+  <div class="main-ar">أفضل الحلاقين<br>في مدينتك</div>
+  <div class="main-en">Top Barbers<br>In Your City</div>
+  <div class="hline"></div>
+
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num">4.9</div>
+      <div class="stat-label-en">Avg Rating</div>
+      <div class="stat-label-ar">متوسط التقييم</div>
+    </div>
+    <div class="stat" style="border-left: 1px solid #2A0018; border-right: 1px solid #2A0018; padding: 0 80px;">
+      <div class="stat-num">10K+</div>
+      <div class="stat-label-en">Bookings</div>
+      <div class="stat-label-ar">حجز منجز</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">30+</div>
+      <div class="stat-label-en">Styles</div>
+      <div class="stat-label-ar">نمط متاح</div>
+    </div>
+  </div>
+
+  <div class="map-visual">
+    <svg width="600" height="300" viewBox="0 0 600 300">
+      <circle cx="300" cy="150" r="140" fill="none" stroke="#1A000F" stroke-width="1"/>
+      <circle cx="300" cy="150" r="100" fill="none" stroke="#1A000F" stroke-width="1"/>
+      <circle cx="300" cy="150" r="60" fill="none" stroke="#2A0018" stroke-width="1"/>
+      <circle cx="300" cy="150" r="6" fill="#C9A84C"/>
+      <circle cx="220" cy="100" r="4" fill="#C9A84C" opacity="0.7"/>
+      <circle cx="380" cy="120" r="4" fill="#C9A84C" opacity="0.7"/>
+      <circle cx="240" cy="200" r="4" fill="#C9A84C" opacity="0.7"/>
+      <circle cx="360" cy="190" r="4" fill="#C9A84C" opacity="0.7"/>
+      <circle cx="180" cy="155" r="3" fill="#C9A84C" opacity="0.4"/>
+      <circle cx="410" cy="160" r="3" fill="#C9A84C" opacity="0.4"/>
+      <circle cx="310" cy="80" r="3" fill="#C9A84C" opacity="0.4"/>
+      <path d="M300 120 L300 148" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+      <path d="M290 135 L300 148 L310 135" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <div class="sub-text">
+    <div class="sub-ar">اعثر على حلاقك المثالي بالقرب منك<br>وقيّم تجربتك بعد كل زيارة</div>
+    <div class="sub-en">Find your perfect barber nearby and rate your experience after every visit</div>
+  </div>
+
+  <div class="logo-bottom">
+    <svg width="28" height="28" viewBox="0 0 28 28">
+      <circle cx="9" cy="19" r="5" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+      <circle cx="19" cy="19" r="5" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+      <line x1="12" y1="15" x2="14" y2="6" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="16" y1="15" x2="14" y2="6" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <div class="logo-name">SALONY</div>
+  </div>
+</div>
+</body></html>

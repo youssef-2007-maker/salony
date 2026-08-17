@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1080px; height: 1920px; overflow: hidden; background: #090007; font-family: 'Cairo', sans-serif; }
+.poster { width: 1080px; height: 1920px; background: #090007; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.corner { position: absolute; width: 60px; height: 60px; border-color: #C9A84C; border-style: solid; }
+.corner.tl { top: 30px; left: 30px; border-width: 2px 0 0 2px; }
+.corner.tr { top: 30px; right: 30px; border-width: 2px 2px 0 0; }
+.corner.bl { bottom: 30px; left: 30px; border-width: 0 0 2px 2px; }
+.corner.br { bottom: 30px; right: 30px; border-width: 0 2px 2px 0; }
+.top-label { position: absolute; top: 90px; font-size: 22px; font-weight: 300; color: #555; letter-spacing: 6px; text-transform: uppercase; }
+.clock-wrap { margin-bottom: 70px; }
+.main-ar { font-size: 96px; font-weight: 900; color: #fff; direction: rtl; text-align: center; line-height: 1; }
+.main-en { font-size: 50px; font-weight: 300; color: #C9A84C; letter-spacing: 4px; text-transform: uppercase; text-align: center; margin-top: 16px; }
+.hline { width: 160px; height: 1px; background: #C9A84C; margin: 50px auto; }
+.steps { display: flex; flex-direction: column; gap: 36px; padding: 0 120px; margin-top: 20px; }
+.step { display: flex; align-items: center; gap: 30px; }
+.step-num { width: 56px; height: 56px; border-radius: 50%; border: 1px solid #C9A84C; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #C9A84C; font-weight: 600; flex-shrink: 0; }
+.step-text { flex: 1; }
+.step-en { font-size: 26px; color: #fff; font-weight: 400; }
+.step-ar { font-size: 26px; color: #C9A84C; font-weight: 300; direction: rtl; text-align: right; }
+.cta-wrap { position: absolute; bottom: 100px; text-align: center; }
+.cta-box { border: 1px solid #C9A84C; padding: 22px 80px; display: inline-block; }
+.cta-en { font-size: 28px; color: #C9A84C; letter-spacing: 6px; text-transform: uppercase; }
+.cta-ar { font-size: 30px; color: #C9A84C; font-weight: 400; direction: rtl; margin-top: 4px; }
+.logo-bottom { position: absolute; bottom: 40px; font-size: 22px; color: #333; letter-spacing: 5px; text-transform: uppercase; }
+</style>
+</head><body>
+<div class="poster">
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
+  <div class="top-label">Instant Booking · حجز فوري</div>
+
+  <div class="clock-wrap">
+    <svg width="180" height="180" viewBox="0 0 180 180">
+      <circle cx="90" cy="90" r="84" fill="none" stroke="#C9A84C" stroke-width="1"/>
+      <circle cx="90" cy="90" r="70" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.3"/>
+      <circle cx="90" cy="90" r="4" fill="#C9A84C"/>
+      <line x1="90" y1="90" x2="90" y2="30" stroke="#C9A84C" stroke-width="2" stroke-linecap="round"/>
+      <line x1="90" y1="90" x2="130" y2="90" stroke="#C9A84C" stroke-width="2" stroke-linecap="round"/>
+      <line x1="90" y1="20" x2="90" y2="28" stroke="#C9A84C" stroke-width="2"/>
+      <line x1="90" y1="152" x2="90" y2="160" stroke="#C9A84C" stroke-width="2"/>
+      <line x1="20" y1="90" x2="28" y2="90" stroke="#C9A84C" stroke-width="2"/>
+      <line x1="152" y1="90" x2="160" y2="90" stroke="#C9A84C" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <div class="main-ar">كرسيك<br>بانتظارك</div>
+  <div class="main-en">Your Chair<br>Is Waiting</div>
+  <div class="hline"></div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-text">
+        <div class="step-en">Choose your barber</div>
+        <div class="step-ar">اختر حلاقك</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-text">
+        <div class="step-en">Pick a time</div>
+        <div class="step-ar">حدّد الوقت</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-text">
+        <div class="step-en">Show up & look great</div>
+        <div class="step-ar">احضر وابدُ رائعًا</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-wrap">
+    <div class="cta-box">
+      <div class="cta-en">Book Now</div>
+      <div class="cta-ar">احجز الآن</div>
+    </div>
+  </div>
+  <div class="logo-bottom">SALONY · سالوني</div>
+</div>
+</body></html>

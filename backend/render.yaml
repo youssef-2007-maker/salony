@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: salony-api
+    runtime: node
+    rootDir: backend
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    disk:
+      name: salony-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: SALONY_ENV
+        value: production
+      - key: SALONY_DB_PATH
+        value: /var/data/salony.db
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        sync: false
+      - key: PAYMOB_SECRET_KEY
+        sync: false
+      - key: PAYMOB_PUBLIC_KEY
+        sync: false
+      - key: PAYMOB_HMAC_SECRET
+        sync: false
+      - key: PAYMOB_CARD_INTEGRATION_ID
+        sync: false

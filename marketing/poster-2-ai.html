@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1080px; height: 1920px; overflow: hidden; background: #090007; font-family: 'Cairo', sans-serif; }
+.poster { width: 1080px; height: 1920px; background: #090007; position: relative; display: flex; flex-direction: column; align-items: center; }
+.corner { position: absolute; width: 60px; height: 60px; border-color: #C9A84C; border-style: solid; }
+.corner.tl { top: 30px; left: 30px; border-width: 2px 0 0 2px; }
+.corner.tr { top: 30px; right: 30px; border-width: 2px 2px 0 0; }
+.corner.bl { bottom: 30px; left: 30px; border-width: 0 0 2px 2px; }
+.corner.br { bottom: 30px; right: 30px; border-width: 0 2px 2px 0; }
+.badge { margin-top: 120px; border: 1px solid #C9A84C; padding: 14px 40px; font-size: 24px; font-weight: 400; color: #C9A84C; letter-spacing: 5px; text-transform: uppercase; }
+.section-top { margin-top: 100px; text-align: center; }
+.headline-ar { font-size: 80px; font-weight: 900; color: #fff; direction: rtl; line-height: 1.1; }
+.headline-en { font-size: 44px; font-weight: 300; color: #C9A84C; letter-spacing: 3px; text-transform: uppercase; margin-top: 20px; }
+.visual { margin: 80px 0; display: flex; align-items: center; justify-content: center; gap: 60px; }
+.face-circle { width: 260px; height: 260px; border-radius: 50%; border: 1.5px solid #C9A84C; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.face-label { font-size: 22px; color: #C9A84C; letter-spacing: 4px; text-transform: uppercase; margin-top: 16px; }
+.arrow-area { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.sub-ar { font-size: 40px; font-weight: 400; color: #E8D5A3; direction: rtl; text-align: center; padding: 0 80px; line-height: 1.5; }
+.sub-en { font-size: 28px; font-weight: 300; color: #888; letter-spacing: 2px; text-align: center; margin-top: 20px; padding: 0 80px; line-height: 1.6; }
+.line { width: 80px; height: 1px; background: #C9A84C; }
+.logo-bottom { position: absolute; bottom: 80px; display: flex; align-items: center; gap: 20px; }
+.logo-name { font-size: 36px; font-weight: 700; color: #C9A84C; letter-spacing: 4px; }
+</style>
+</head><body>
+<div class="poster">
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
+
+  <div class="badge">AI Hairstyle Studio · استوديو الذكاء الاصطناعي</div>
+
+  <div class="section-top">
+    <div class="headline-ar">جرّب قبل<br>أن تقص</div>
+    <div class="headline-en">Try Before You Cut</div>
+  </div>
+
+  <div class="visual">
+    <div style="text-align:center">
+      <div class="face-circle">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="35" r="22" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+          <path d="M15 90 Q15 65 50 65 Q85 65 85 90" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+          <path d="M28 20 Q50 10 72 20" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round"/>
+          <path d="M22 28 Q18 22 22 18" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round"/>
+          <path d="M78 28 Q82 22 78 18" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="face-label">BEFORE · قبل</div>
+    </div>
+
+    <div class="arrow-area">
+      <div class="line"></div>
+      <svg width="40" height="40" viewBox="0 0 40 40">
+        <path d="M5 20h28M25 10l10 10-10 10" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="line"></div>
+    </div>
+
+    <div style="text-align:center">
+      <div class="face-circle" style="border-color:#fff">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="35" r="22" fill="none" stroke="#fff" stroke-width="1.5"/>
+          <path d="M15 90 Q15 65 50 65 Q85 65 85 90" fill="none" stroke="#fff" stroke-width="1.5"/>
+          <path d="M30 22 Q50 18 70 22" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="face-label" style="color:#fff">AFTER · بعد</div>
+    </div>
+  </div>
+
+  <div class="sub-ar">صمّم إطلالتك بالذكاء الاصطناعي<br>قبل أن تحجز موعدك</div>
+  <div class="sub-en">Design your look with AI before you book your appointment</div>
+
+  <div class="logo-bottom">
+    <svg width="32" height="32" viewBox="0 0 32 32">
+      <circle cx="10" cy="22" r="6" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+      <circle cx="22" cy="22" r="6" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+      <line x1="14" y1="17" x2="16" y2="8" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="18" y1="17" x2="16" y2="8" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <div class="logo-name">SALONY</div>
+  </div>
+</div>
+</body></html>

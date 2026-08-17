@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1080px; height: 1920px; overflow: hidden; background: #090007; font-family: 'Cairo', sans-serif; }
+.poster { width: 1080px; height: 1920px; background: #090007; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.corner { position: absolute; width: 60px; height: 60px; border-color: #C9A84C; border-style: solid; }
+.corner.tl { top: 30px; left: 30px; border-width: 2px 0 0 2px; }
+.corner.tr { top: 30px; right: 30px; border-width: 2px 2px 0 0; }
+.corner.bl { bottom: 30px; left: 30px; border-width: 0 0 2px 2px; }
+.corner.br { bottom: 30px; right: 30px; border-width: 0 2px 2px 0; }
+.top-tag { position: absolute; top: 90px; font-size: 22px; color: #555; letter-spacing: 6px; text-transform: uppercase; }
+.star-row { display: flex; gap: 30px; margin-bottom: 60px; }
+.main-ar { font-size: 90px; font-weight: 900; color: #fff; direction: rtl; text-align: center; line-height: 1.1; }
+.main-en { font-size: 46px; font-weight: 300; color: #C9A84C; letter-spacing: 3px; text-transform: uppercase; text-align: center; margin-top: 20px; }
+.hline { width: 140px; height: 1px; background: #C9A84C; margin: 50px auto; }
+.tiers { display: flex; flex-direction: column; gap: 28px; padding: 0 100px; width: 100%; }
+.tier { display: flex; align-items: center; gap: 28px; border: 1px solid #1F0015; padding: 28px 36px; }
+.tier.active { border-color: #C9A84C; }
+.tier-icon { flex-shrink: 0; }
+.tier-text { flex: 1; }
+.tier-name-en { font-size: 28px; color: #fff; font-weight: 600; letter-spacing: 2px; }
+.tier-name-ar { font-size: 26px; color: #C9A84C; direction: rtl; font-weight: 400; }
+.tier-desc { font-size: 20px; color: #666; margin-top: 4px; }
+.bottom-cta { margin-top: 70px; text-align: center; }
+.cta-ar { font-size: 44px; font-weight: 700; color: #fff; direction: rtl; }
+.cta-en { font-size: 28px; color: #C9A84C; letter-spacing: 4px; text-transform: uppercase; margin-top: 10px; }
+.logo-bottom { position: absolute; bottom: 55px; font-size: 26px; color: #333; letter-spacing: 6px; text-transform: uppercase; }
+</style>
+</head><body>
+<div class="poster">
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
+  <div class="top-tag">Loyalty Program · برنامج الولاء</div>
+
+  <div class="star-row">
+    <svg width="50" height="50" viewBox="0 0 50 50"><polygon points="25,5 31,19 47,19 35,29 39,45 25,36 11,45 15,29 3,19 19,19" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>
+    <svg width="50" height="50" viewBox="0 0 50 50"><polygon points="25,5 31,19 47,19 35,29 39,45 25,36 11,45 15,29 3,19 19,19" fill="#C9A84C"/></svg>
+    <svg width="50" height="50" viewBox="0 0 50 50"><polygon points="25,5 31,19 47,19 35,29 39,45 25,36 11,45 15,29 3,19 19,19" fill="#C9A84C"/></svg>
+    <svg width="50" height="50" viewBox="0 0 50 50"><polygon points="25,5 31,19 47,19 35,29 39,45 25,36 11,45 15,29 3,19 19,19" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>
+    <svg width="50" height="50" viewBox="0 0 50 50"><polygon points="25,5 31,19 47,19 35,29 39,45 25,36 11,45 15,29 3,19 19,19" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>
+  </div>
+
+  <div class="main-ar">كل حجز<br>يكافئك</div>
+  <div class="main-en">Every Booking<br>Rewards You</div>
+  <div class="hline"></div>
+
+  <div class="tiers">
+    <div class="tier">
+      <div class="tier-icon">
+        <svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="none" stroke="#888" stroke-width="1.5"/><text x="22" y="28" text-anchor="middle" font-size="18" fill="#888" font-family="Cairo">I</text></svg>
+      </div>
+      <div class="tier-text">
+        <div class="tier-name-en">SILVER</div>
+        <div class="tier-name-ar">فضي</div>
+        <div class="tier-desc">Earn 1 point per visit</div>
+      </div>
+    </div>
+    <div class="tier active">
+      <div class="tier-icon">
+        <svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="none" stroke="#C9A84C" stroke-width="1.5"/><polygon points="22,10 26,18 36,18 28,24 31,34 22,28 13,34 16,24 8,18 18,18" fill="#C9A84C"/></svg>
+      </div>
+      <div class="tier-text">
+        <div class="tier-name-en" style="color:#C9A84C">GOLD</div>
+        <div class="tier-name-ar">ذهبي</div>
+        <div class="tier-desc">2× points + exclusive offers</div>
+      </div>
+    </div>
+    <div class="tier">
+      <div class="tier-icon">
+        <svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="none" stroke="#E8E8FF" stroke-width="1.5"/><polygon points="22,10 26,18 36,18 28,24 31,34 22,28 13,34 16,24 8,18 18,18" fill="none" stroke="#E8E8FF" stroke-width="1"/><polygon points="22,14 25,19 31,19 27,23 29,29 22,25 15,29 17,23 13,19 19,19" fill="#E8E8FF"/></svg>
+      </div>
+      <div class="tier-text">
+        <div class="tier-name-en" style="color:#E8E8FF">PLATINUM</div>
+        <div class="tier-name-ar" style="color:#E8E8FF">بلاتيني</div>
+        <div class="tier-desc">VIP access + free cuts</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-cta">
+    <div class="cta-ar">ابدأ اليوم</div>
+    <div class="cta-en">Start Earning Today</div>
+  </div>
+
+  <div class="logo-bottom">SALONY · سالوني</div>
+</div>
+</body></html>

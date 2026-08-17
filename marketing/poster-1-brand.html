@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1080px; height: 1920px; overflow: hidden; background: #090007; font-family: 'Cairo', sans-serif; }
+.poster { width: 1080px; height: 1920px; background: #090007; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.border-frame { position: absolute; inset: 40px; border: 1px solid #C9A84C; opacity: 0.35; }
+.corner { position: absolute; width: 60px; height: 60px; border-color: #C9A84C; border-style: solid; }
+.corner.tl { top: 30px; left: 30px; border-width: 2px 0 0 2px; }
+.corner.tr { top: 30px; right: 30px; border-width: 2px 2px 0 0; }
+.corner.bl { bottom: 30px; left: 30px; border-width: 0 0 2px 2px; }
+.corner.br { bottom: 30px; right: 30px; border-width: 0 2px 2px 0; }
+.logo-scissors { margin-bottom: 60px; }
+.line-accent { width: 120px; height: 1px; background: #C9A84C; margin: 40px auto; }
+.app-name { font-size: 160px; font-weight: 900; color: #fff; letter-spacing: 8px; text-transform: uppercase; line-height: 1; }
+.tagline-en { font-size: 36px; font-weight: 300; color: #C9A84C; letter-spacing: 6px; text-transform: uppercase; margin-top: 20px; }
+.tagline-ar { font-size: 52px; font-weight: 400; color: #E8D5A3; margin-top: 30px; direction: rtl; }
+.divider { width: 200px; height: 1px; background: #C9A84C; margin: 50px auto; opacity: 0.5; }
+.cta { font-size: 28px; font-weight: 300; color: #C9A84C; letter-spacing: 8px; text-transform: uppercase; }
+.cta-ar { font-size: 32px; font-weight: 300; color: #C9A84C; direction: rtl; margin-top: 12px; }
+.bottom-tag { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); font-size: 22px; color: #555; letter-spacing: 4px; text-transform: uppercase; white-space: nowrap; }
+</style>
+</head><body>
+<div class="poster">
+  <div class="border-frame"></div>
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
+
+  <div class="logo-scissors">
+    <svg width="120" height="120" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="58" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+      <g fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round">
+        <circle cx="38" cy="75" r="12"/>
+        <circle cx="82" cy="75" r="12"/>
+        <line x1="46" y1="65" x2="60" y2="38"/>
+        <line x1="74" y1="65" x2="60" y2="38"/>
+        <line x1="60" y1="38" x2="60" y2="20"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="app-name">SALONY</div>
+  <div class="line-accent"></div>
+  <div class="tagline-en">Grooming, booked in seconds</div>
+  <div class="tagline-ar">تجربة الحلاقة الفاخرة، في ثوانٍ</div>
+  <div class="divider"></div>
+  <div class="cta">Download the app</div>
+  <div class="cta-ar">حمّل التطبيق الآن</div>
+  <div class="bottom-tag">salony.app</div>
+</div>
+</body></html>
