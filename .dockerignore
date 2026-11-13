@@ -1,0 +1,11 @@
+node_modules
+backend/node_modules
+dist
+.expo
+.git
+backend/.env
+backend/salony.db*
+*.zip
+*.tgz
+ziXvEQIX
+Screenshot*

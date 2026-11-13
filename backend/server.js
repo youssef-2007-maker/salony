@@ -34,7 +34,9 @@ app.set('trust proxy', 1);
 // Security headers. API-only server, so no need for a CSP that blocks nothing.
 // CSP is disabled because the same server also hosts the web app bundle,
 // which loads remote salon images and fonts.
-app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
+// frameguard is off so the app can also be shown inside the Hugging Face
+// Spaces page, which embeds it in an iframe.
+app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false, frameguard: false }));
 
 // CORS: in production, lock to an explicit allowlist (CORS_ORIGINS, comma-sep).
 // In dev, reflect any origin so Expo/web/emulator all work.
