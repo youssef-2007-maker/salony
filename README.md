@@ -85,3 +85,19 @@ Barbers set their salon's pin from the dashboard or salon editor by tapping "Use
 ## Deploy later
 
 `eas.json` is already wired for EAS Build (Expo's cloud build service). When you're ready for the App Store / Play Store, host the backend (Render, Fly.io, Railway, your own VPS), then change `app.json → extra.apiUrl` to that public URL before building.
+
+## Web app (live site)
+
+The same codebase builds a web app. One server hosts both the website and the API:
+
+```bash
+npm install
+npx expo export --platform web   # builds the site into dist/
+cd backend && npm install && npm start
+# open http://localhost:4000 — the web app; the API is at /api/...
+```
+
+- On web the app calls the API on the same domain under `/api`; native builds keep using `/...` on `SALONY_API_URL`.
+- The site is an installable PWA (Add to Home Screen on iPhone / Install app on Android & Chrome).
+- A fresh, empty database is seeded with demo salons on first boot (`SALONY_AUTO_SEED=false` to disable).
+- Deploy: `render.yaml` at the repo root is a Render Blueprint (Render → New → Blueprint → this repo).

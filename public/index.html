@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
+    <title>Salony — Book salons & barbers</title>
+    <meta name="description" content="Find nearby salons and barbers in Egypt and book in seconds." />
+    <meta name="theme-color" content="#7D1A3D" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icon-180.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Salony" />
+    <meta property="og:title" content="Salony" />
+    <meta property="og:description" content="Find nearby salons and barbers in Egypt and book in seconds." />
+    <meta property="og:image" content="/icon-512.png" />
+    <style id="expo-reset">
+      html, body { height: 100%; }
+      body { overflow: hidden; background: #FAF6F2; }
+      #root { display: flex; height: 100%; flex: 1; }
+      /* On wide screens, show the app as a phone-width column. */
+      @media (min-width: 600px) {
+        body { background: #7D1A3D; }
+        #root { max-width: 480px; margin: 0 auto; box-shadow: 0 0 40px rgba(0,0,0,.35); background: #FAF6F2; }
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run Salony.</noscript>
+    <div id="root"></div>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js'); });
+      }
+    </script>
+  </body>
+</html>

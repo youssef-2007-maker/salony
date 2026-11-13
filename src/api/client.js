@@ -8,6 +8,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const TOKEN_KEY = '@salony/token';
 
 function resolveBaseUrl() {
+  // Web build: the API is served from the same server as the web app, under
+  // /api. Only when running the Expo dev server (port 8081) do we fall back to
+  // the configured apiUrl (usually http://localhost:4000).
+  if (Platform.OS === 'web' && typeof window !== 'undefined' && window.location.port !== '8081') {
+    return `${window.location.origin}/api`;
+  }
+
   const fromConfig =
     Constants?.expoConfig?.extra?.apiUrl ||
     Constants?.manifest?.extra?.apiUrl ||
@@ -67,7 +74,7 @@ async function request(path, { method = 'GET', body, query, auth = true, timeout
   } catch (e) {
     clearTimeout(timer);
     if (e.name === 'AbortError') {
-      const err = new Error("Can't reach the Salony backend. Is `npm start` running in the backend/ folder?");
+      const err = new Error("Can't reach Salony right now. Check your connection and try again.");
       err.status = 0;
       throw err;
     }

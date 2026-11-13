@@ -1,0 +1,45 @@
+# Render Blueprint — one web service that serves BOTH the Salony web app
+# (Expo web export in /dist) and the API (/api/... for web, /... for native apps).
+#
+# Deploy: Render dashboard → New → Blueprint → pick this repo.
+#
+# DATA PERSISTENCE: the database is a SQLite file. On Render's free plan the
+# disk is wiped on every deploy/restart, so accounts and bookings don't last.
+# Currently on the FREE plan: demo data is re-seeded on each boot.
+# When real users arrive, switch to persistent storage:
+#   plan: starter
+#   disk: { name: salony-data, mountPath: /var/data, sizeGB: 1 }
+#   envVars: SALONY_DB_PATH=/var/data/salony.db
+# (≈ $7.25/month total).
+services:
+  - type: web
+    name: salony
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm ci && npx expo export --platform web && cd backend && npm ci
+    startCommand: cd backend && npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: SALONY_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      # Optional — AI features fall back to templates when these are empty.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: REPLICATE_API_TOKEN
+        sync: false
+      # Optional — payments run in test mode until these are set.
+      - key: PAYMOB_SECRET_KEY
+        sync: false
+      - key: PAYMOB_PUBLIC_KEY
+        sync: false
+      - key: PAYMOB_HMAC_SECRET
+        sync: false
+      - key: PAYMOB_CARD_INTEGRATION_ID
+        sync: false

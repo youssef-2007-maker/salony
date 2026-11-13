@@ -426,10 +426,12 @@ function seed() {
                           barber_name, date, time, price, status)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
+  // Dates are relative to "now" so the demo always has one upcoming and one past visit.
+  const isoDay = (offset) => new Date(Date.now() + offset * 86400000).toISOString().slice(0, 10);
   insertBooking.run(customerId, 'the-barber-shop', 'mohamed', 'classic-haircut',
-    'Classic Haircut', 'Mohamed', '2026-05-21', '11:00 AM', 200, 'upcoming');
+    'Classic Haircut', 'Mohamed', isoDay(3), '11:00 AM', 200, 'upcoming');
   insertBooking.run(customerId, 'the-barber-shop', 'ramy', 'beard-trim',
-    'Beard Trim & Shape', 'Ramy', '2026-04-30', '02:30 PM', 120, 'past');
+    'Beard Trim & Shape', 'Ramy', isoDay(-14), '02:30 PM', 120, 'past');
 
   // Demo messages
   const insertMsg = db.prepare(`

@@ -4,6 +4,8 @@
 // See README / RELEASE.md for the full endpoint list.
 
 require('dotenv').config();
+const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -30,7 +32,9 @@ const app = express();
 app.set('trust proxy', 1);
 
 // Security headers. API-only server, so no need for a CSP that blocks nothing.
-app.use(helmet());
+// CSP is disabled because the same server also hosts the web app bundle,
+// which loads remote salon images and fonts.
+app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 
 // CORS: in production, lock to an explicit allowlist (CORS_ORIGINS, comma-sep).
 // In dev, reflect any origin so Expo/web/emulator all work.
@@ -78,23 +82,60 @@ const authLimiter = rateLimit({
 });
 
 // Health checks
-app.get('/', (_req, res) => res.json({ ok: true, service: 'salony-backend' }));
 app.get('/health', (_req, res) => res.json({ ok: true, time: new Date().toISOString() }));
 
-app.use('/auth', authLimiter, authRoutes);
-app.use('/salons', salonRoutes);
-app.use('/bookings', bookingRoutes);
-app.use('/barbers', barberRoutes);
-app.use('/messages', messageRoutes);
-app.use('/billing', billingRoutes);
-app.use('/loyalty', loyaltyRoutes);
-app.use('/marketplace', marketplaceRoutes);
-app.use('/social', socialRoutes);
-app.use('/ops', operationsRoutes);
-app.use('/payments', paymentRoutes);
+// All API routes live on one router, mounted twice:
+//   /api/...  used by the web app (same origin as the site)
+//   /...      used by the native iOS/Android builds (unchanged paths)
+const api = express.Router();
+api.get('/health', (_req, res) => res.json({ ok: true, time: new Date().toISOString() }));
+api.use('/auth', authLimiter, authRoutes);
+api.use('/salons', salonRoutes);
+api.use('/bookings', bookingRoutes);
+api.use('/barbers', barberRoutes);
+api.use('/messages', messageRoutes);
+api.use('/billing', billingRoutes);
+api.use('/loyalty', loyaltyRoutes);
+api.use('/marketplace', marketplaceRoutes);
+api.use('/social', socialRoutes);
+api.use('/ops', operationsRoutes);
+api.use('/payments', paymentRoutes);
 
-// 404 for unknown routes
-app.use((req, res) => res.status(404).json({ error: `Not found: ${req.method} ${req.path}` }));
+app.use('/api', api);
+app.use('/api', (req, res) => res.status(404).json({ error: `Not found: ${req.method} ${req.originalUrl}` }));
+
+// Web app: serve the Expo web export (../dist) if it has been built.
+const WEB_DIR = process.env.SALONY_WEB_DIR || path.join(__dirname, '..', 'dist');
+const HAS_WEB = fs.existsSync(path.join(WEB_DIR, 'index.html'));
+if (HAS_WEB) {
+  app.use(
+    express.static(WEB_DIR, {
+      index: 'index.html',
+      setHeaders(res, filePath) {
+        // Hashed bundles can be cached forever; index.html must always be fresh.
+        if (filePath.endsWith('index.html') || filePath.endsWith('sw.js')) {
+          res.setHeader('Cache-Control', 'no-cache');
+        } else if (filePath.includes(`${path.sep}_expo${path.sep}`) || filePath.includes(`${path.sep}assets${path.sep}`)) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        }
+      },
+    })
+  );
+} else {
+  app.get('/', (_req, res) => res.json({ ok: true, service: 'salony-backend' }));
+}
+
+app.use(api);
+
+// Browser navigations to unknown paths get the web app (SPA fallback);
+// everything else gets a JSON 404.
+app.use((req, res) => {
+  if (HAS_WEB && req.method === 'GET' && (req.headers.accept || '').includes('text/html')) {
+    res.setHeader('Cache-Control', 'no-cache');
+    return res.sendFile(path.join(WEB_DIR, 'index.html'));
+  }
+  res.status(404).json({ error: `Not found: ${req.method} ${req.path}` });
+});
 
 // Final error handler — never leak stack traces / internals in production.
 app.use((err, _req, res, _next) => {
@@ -109,6 +150,17 @@ app.use((err, _req, res, _next) => {
 });
 
 init();
+
+// First boot on a fresh host (e.g. a new Render deploy): load demo salons so the
+// app isn't empty. Never runs again once any user exists.
+{
+  const { db, seed } = require('./db');
+  const users = db.prepare('SELECT COUNT(*) AS n FROM users').get().n;
+  if (users === 0 && process.env.SALONY_AUTO_SEED !== 'false') {
+    console.log('Empty database — seeding demo data');
+    seed();
+  }
+}
 
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {
