@@ -88,8 +88,13 @@ Barbers set their salon's pin from the dashboard or salon editor by tapping "Use
 
 ## Web app (live site)
 
+Live at **https://salony.youssefhamad086.workers.dev**
+
 Production runs for free (no card) on **Netlify** (website + API as a serverless
 function) with the data in **Turso** (hosted SQLite, kept permanently).
+Egyptian ISPs block Netlify's servers, so the public URL is a **Cloudflare Worker**
+(`cloudflare/worker.js`) that forwards everything to `salony-eg.netlify.app`.
+Share the workers.dev link (or a custom domain on Cloudflare), never the netlify.app one.
 
 - `netlify.toml` builds the Expo web app into `dist/` and serves the API from
   `backend/functions/api.js` at `/api/*`.

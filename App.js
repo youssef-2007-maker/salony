@@ -23,7 +23,7 @@ export default function App() {
             <CartProvider>
               <FavouritesProvider>
                 <BookingsProvider>
-                  <NavigationContainer theme={navTheme}>
+                  <NavigationContainer theme={navTheme} documentTitle={{ formatter: () => 'Salony' }}>
                     <StatusBar style="light" />
                     <RootNavigator />
                   </NavigationContainer>
