@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
     <title>Salony — Book salons & barbers</title>
     <meta name="description" content="Find nearby salons and barbers in Egypt and book in seconds." />
     <meta name="theme-color" content="#651331" />
@@ -17,8 +17,20 @@
     <meta property="og:description" content="Find nearby salons and barbers in Egypt and book in seconds." />
     <meta property="og:image" content="/icon-512.png" />
     <style id="expo-reset">
-      html, body { height: 100%; }
-      body { overflow: hidden; background: #FAF6F2; }
+      html, body { height: 100%; width: 100%; }
+      /* App feel: no page scroll, no sideways scroll, no bounce, no zoom. */
+      html, body {
+        overflow: hidden;
+        overscroll-behavior: none;
+        touch-action: pan-x pan-y;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body { background: #FAF6F2; position: fixed; inset: 0; }
+      #root { overflow-x: hidden; }
+      * { touch-action: pan-x pan-y; -webkit-touch-callout: none; }
+      /* Tapping a text field must not zoom the page (iOS zooms below 16px). */
+      input, textarea, select { font-size: 16px !important; touch-action: manipulation; }
       #root { display: flex; height: 100%; flex: 1; }
       /* On wide screens, show the app as a phone-width column. */
       @media (min-width: 600px) {
@@ -31,6 +43,22 @@
     <noscript>You need to enable JavaScript to run Salony.</noscript>
     <div id="root"></div>
     <script>
+      // Block pinch-zoom (iOS Safari ignores user-scalable=no). Double-tap zoom is
+      // already disabled by touch-action in the CSS above.
+      (function () {
+        var opts = { passive: false };
+        ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (t) {
+          document.addEventListener(t, function (e) { e.preventDefault(); }, opts);
+        });
+        document.addEventListener('touchmove', function (e) {
+          if (e.touches && e.touches.length > 1) e.preventDefault();
+        }, opts);
+        // Ctrl/Cmd + wheel or +/- zoom on desktop browsers.
+        document.addEventListener('wheel', function (e) { if (e.ctrlKey) e.preventDefault(); }, opts);
+        document.addEventListener('keydown', function (e) {
+          if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].indexOf(e.key) !== -1) e.preventDefault();
+        });
+      })();
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js'); });
       }

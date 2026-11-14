@@ -1,6 +1,6 @@
 // Minimal service worker: makes Salony installable and keeps the app shell
 // loading on flaky connections. API calls always go to the network.
-const CACHE = 'salony-shell-v2';
+const CACHE = 'salony-shell-v3';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((c) => c.addAll(['/', '/manifest.json', '/icon-192.png'])));
