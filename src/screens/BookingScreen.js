@@ -11,6 +11,7 @@ import {
   Switch,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFeatures } from '../state/features';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radius, shadow, spacing, typography } from '../theme/colors';
 import { getUpcomingDates, getDailySlots } from '../data/dates';
@@ -45,6 +46,8 @@ export default function BookingScreen({ route, navigation }) {
   const [atHomeAddress, setAtHomeAddress] = useState('');
   const [groupSize, setGroupSize] = useState(1);
   const [payMethod, setPayMethod] = useState('cash');
+  // Until in-app payments are live, everything is paid at the salon.
+  const { payments: paymentsLive } = useFeatures();
 
   const [quote, setQuote] = useState(null);
 
@@ -103,7 +106,7 @@ export default function BookingScreen({ route, navigation }) {
     : 0;
   const pointsDiscount = quote?.discount || 0;
   const finalPrice = Math.max(0, baseGross - dealDiscount - plusDiscount - pointsDiscount);
-  const depositAmount = salon.depositRequired ? Math.round(finalPrice * (salon.depositPct || 0.25)) : 0;
+  const depositAmount = paymentsLive && salon.depositRequired ? Math.round(finalPrice * (salon.depositPct || 0.25)) : 0;
 
   const placeBooking = async (paidMethod) => {
     const chosenBarber = (salon.barbers || []).find((b) => b.id === barber);
@@ -141,9 +144,13 @@ export default function BookingScreen({ route, navigation }) {
       Alert.alert('Address required', 'Add your address for at-home service.');
       return;
     }
+    if (!paymentsLive) {
+      placeBooking('cash');
+      return;
+    }
     const owed = (payMethod === 'card')
       ? (finalPrice + tip)
-      : (salon.depositRequired ? Math.round(finalPrice * (salon.depositPct || 0.25)) : 0);
+      : depositAmount;
     if (payMethod === 'card' || owed > 0) {
       navigation.navigate('Payment', {
         amount: owed,
@@ -296,6 +303,9 @@ export default function BookingScreen({ route, navigation }) {
             <Ionicons name="card" size={18} color={colors.primary} />
             <Text style={styles.optTitle}>Payment</Text>
           </View>
+          {!paymentsLive ? (
+            <Text style={styles.depositHint}>Pay at the salon after your appointment.</Text>
+          ) : (
           <View style={styles.ptsRow}>
             <Pressable onPress={() => setPayMethod('cash')} style={[styles.ptsBtn, payMethod === 'cash' && styles.ptsBtnActive]}>
               <Text style={[styles.ptsBtnText, payMethod === 'cash' && { color: '#fff' }]}>Cash at salon</Text>
@@ -304,6 +314,7 @@ export default function BookingScreen({ route, navigation }) {
               <Text style={[styles.ptsBtnText, payMethod === 'card' && { color: '#fff' }]}>Pay in app</Text>
             </Pressable>
           </View>
+          )}
         </View>
 
         {/* Breakdown */}

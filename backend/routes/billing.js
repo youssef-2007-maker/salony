@@ -5,6 +5,7 @@
 const express = require('express');
 const { db } = require('../db');
 const { auth, requireRole } = require('../middleware/auth');
+const { requireSubscriptions } = require('../lib/features');
 
 const router = express.Router();
 
@@ -51,7 +52,7 @@ function descriptionFor(p) {
 
 // --- Subscribe (mocked payment) ---
 
-router.post('/subscribe', auth(), requireRole('barber'), (req, res) => {
+router.post('/subscribe', auth(), requireRole('barber'), requireSubscriptions, (req, res) => {
   const { plan } = req.body || {};
   if (!PLANS[plan]) return res.status(400).json({ error: 'Unknown plan' });
 
@@ -93,7 +94,7 @@ router.post('/subscribe', auth(), requireRole('barber'), (req, res) => {
 
 // --- Boost (à la carte) ---
 
-router.post('/boost', auth(), requireRole('barber'), (req, res) => {
+router.post('/boost', auth(), requireRole('barber'), requireSubscriptions, (req, res) => {
   const days = Math.max(1, Math.min(30, parseInt(req.body?.days || 3, 10)));
   const salon = mySalon(req.user.sub);
   if (!salon) return res.status(400).json({ error: 'Create a salon first.' });

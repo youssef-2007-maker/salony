@@ -3,6 +3,7 @@
 const express = require('express');
 const { db } = require('../db');
 const { auth, requireRole } = require('../middleware/auth');
+const { requireSubscriptions } = require('../lib/features');
 
 const router = express.Router();
 
@@ -90,7 +91,7 @@ router.post('/redeem-quote', auth(), (req, res) => {
 });
 
 // POST /loyalty/subscribe  → Salony Plus (mocked payment)
-router.post('/subscribe', auth(), requireRole('customer'), (req, res) => {
+router.post('/subscribe', auth(), requireRole('customer'), requireSubscriptions, (req, res) => {
   const now = new Date();
   const until = new Date(now.getTime() + 30 * 86400 * 1000).toISOString();
   db.prepare(`UPDATE users SET subscription_active = 1, subscription_until = ?,

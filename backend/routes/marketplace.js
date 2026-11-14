@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const express = require('express');
 const { db } = require('../db');
 const { auth, requireRole } = require('../middleware/auth');
+const { requireMarketplace } = require('../lib/features');
 const { str, num, intIn } = require('../lib/validate');
 
 const router = express.Router();
@@ -42,7 +43,7 @@ router.get('/products/:id', (req, res) => {
 });
 
 // Barber product CRUD
-router.post('/me/products', auth(), requireRole('barber'), (req, res) => {
+router.post('/me/products', auth(), requireRole('barber'), requireMarketplace, (req, res) => {
   const salon = ownsSalon(req.user.sub);
   if (!salon) return res.status(400).json({ error: 'Create a salon first' });
   const title = str(req.body?.title, { min: 1, max: 120 });
@@ -92,7 +93,7 @@ router.get('/me/products', auth(), requireRole('barber'), (req, res) => {
 });
 
 // Orders
-router.post('/orders', auth(), requireRole('customer'), (req, res) => {
+router.post('/orders', auth(), requireRole('customer'), requireMarketplace, (req, res) => {
   const raw = req.body?.items;
   if (!Array.isArray(raw) || raw.length === 0) return res.status(400).json({ error: 'items required' });
   if (raw.length > 50) return res.status(400).json({ error: 'Too many line items.' });

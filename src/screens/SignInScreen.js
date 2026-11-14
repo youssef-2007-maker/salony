@@ -94,11 +94,7 @@ export default function SignInScreen({ navigation }) {
               </Text>
             </Pressable>
 
-            <View style={styles.demoBox}>
-              <Text style={styles.demoTitle}>Demo logins</Text>
-              <Text style={styles.demoLine}>Customer: demo@salony.app / password</Text>
-              <Text style={styles.demoLine}>Barber: mohamed@salony.app / password</Text>
-            </View>
+
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

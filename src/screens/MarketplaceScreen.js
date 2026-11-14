@@ -11,6 +11,8 @@ import {
   RefreshControl,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ComingSoon from '../components/ComingSoon';
+import { useFeatures } from '../state/features';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radius, shadow, spacing, typography } from '../theme/colors';
 import { api } from '../api/client';
@@ -18,7 +20,7 @@ import { useCart } from '../state/CartContext';
 
 const CATEGORIES = ['All', 'Hair', 'Beard', 'Eyes', 'Skin', 'Tools'];
 
-export default function MarketplaceScreen({ navigation }) {
+function MarketplaceScreenLive({ navigation }) {
   const { count } = useCart();
   const [q, setQ] = useState('');
   const [cat, setCat] = useState('All');
@@ -154,3 +156,19 @@ const styles = StyleSheet.create({
   from: { color: colors.textMuted, fontSize: 11, marginTop: 2 },
   price: { color: colors.primary, fontWeight: '800', marginTop: 6 },
 });
+
+// Shown as "Coming soon" until the feature is switched on at the backend.
+export default function MarketplaceScreen(props) {
+  const features = useFeatures();
+  if (!features.marketplace) {
+    return (
+      <ComingSoon
+        icon="bag-handle"
+        title="Salony Shop"
+        message="Grooming products from your favourite salons, delivered to your door. We are getting it ready."
+        
+      />
+    );
+  }
+  return <MarketplaceScreenLive {...props} />;
+}

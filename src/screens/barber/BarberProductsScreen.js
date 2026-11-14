@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, Pressable, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ComingSoon from '../../components/ComingSoon';
+import { useFeatures } from '../../state/features';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radius, shadow, spacing, typography } from '../../theme/colors';
 import { api } from '../../api/client';
 
-export default function BarberProductsScreen({ navigation }) {
+function BarberProductsScreenLive({ navigation }) {
   const [list, setList] = useState([]);
   const [form, setForm] = useState({ title: '', description: '', price: '', stock: '10', category: 'Hair' });
 
@@ -117,3 +119,19 @@ const styles = StyleSheet.create({
   prodMeta: { color: colors.textMuted, fontSize: 12, marginTop: 2 },
   prodPrice: { color: colors.primary, fontWeight: '800' },
 });
+
+// Shown as "Coming soon" until the feature is switched on at the backend.
+export default function BarberProductsScreen(props) {
+  const features = useFeatures();
+  if (!features.marketplace) {
+    return (
+      <ComingSoon
+        icon="bag-handle"
+        title="Sell products on Salony"
+        message="Soon you will be able to list your products and sell them to your customers right here."
+        onBack={() => props.navigation.goBack()}
+      />
+    );
+  }
+  return <BarberProductsScreenLive {...props} />;
+}

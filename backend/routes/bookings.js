@@ -1,6 +1,7 @@
 const express = require('express');
 const { db } = require('../db');
 const { auth } = require('../middleware/auth');
+const { paymentsEnabled, requirePayments } = require('../lib/features');
 const { isFutureDate } = require('../lib/validate');
 const { tierFor, PLUS_DISCOUNT_PCT, REFERRAL_BONUS } = require('./loyalty');
 
@@ -66,8 +67,10 @@ router.post('/', auth(), (req, res) => {
     redeemPoints, tip,
     isAtHome, atHomeAddress,
     groupSize,
-    payMethod, // 'cash' | 'card' (mock) | 'subscription_credit'
+    payMethod: requestedPayMethod, // 'cash' | 'card' | 'subscription_credit'
   } = req.body || {};
+  // Until real payments are live, every booking is paid at the salon.
+  const payMethod = paymentsEnabled() ? requestedPayMethod : 'cash';
   if (!salonId || !serviceId || !date || !time) {
     return res.status(400).json({ error: 'salonId, serviceId, date, time required' });
   }
@@ -125,9 +128,10 @@ router.post('/', auth(), (req, res) => {
 
   const finalPrice = Math.max(0, Math.round(basePrice - discount));
 
-  // Deposit
+  // Deposit — only when real payments are live; otherwise everything is
+  // paid at the salon.
   let depositPaid = 0;
-  if (salon.deposit_required && payMethod !== 'subscription_credit') {
+  if (paymentsEnabled() && salon.deposit_required && payMethod !== 'subscription_credit') {
     depositPaid = Math.round(finalPrice * (salon.deposit_pct || 0.25));
   }
 
@@ -269,7 +273,7 @@ router.patch('/:id/status', auth(), (req, res) => {
 });
 
 // POST /bookings/:id/pay  → mock pay-in-app + tip
-router.post('/:id/pay', auth(), (req, res) => {
+router.post('/:id/pay', auth(), requirePayments, (req, res) => {
   const { method, tip } = req.body || {};
   const row = db.prepare('SELECT * FROM bookings WHERE id = ? AND customer_id = ?')
                 .get(req.params.id, req.user.sub);

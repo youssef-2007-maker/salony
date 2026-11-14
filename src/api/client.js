@@ -201,5 +201,6 @@ export const api = {
   // payments (Paymob hosted checkout, with mock fallback)
   paymentIntention: (body) => request('/payments/intention', { method: 'POST', body }),
   paymentStatus: (reference) => request('/payments/status', { query: { reference } }),
+  featureConfig: () => request('/payments/config', { auth: false }),
 };
 

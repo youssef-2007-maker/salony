@@ -2,12 +2,19 @@
 // Run `node db.js --seed` to (re)create tables and load demo content.
 
 const path = require('path');
-const Database = require('better-sqlite3');
+// libsql has the same synchronous API as better-sqlite3, and can also talk to a
+// hosted Turso database so data survives restarts and redeploys.
+const Database = require('libsql');
 
-const DB_PATH = process.env.SALONY_DB_PATH || path.join(__dirname, 'salony.db');
-const db = new Database(DB_PATH);
-db.pragma('journal_mode = WAL');
-db.pragma('foreign_keys = ON');
+// Production: set TURSO_DATABASE_URL (libsql://...) + TURSO_AUTH_TOKEN.
+// Local dev: falls back to a SQLite file next to this script.
+const REMOTE_URL = process.env.TURSO_DATABASE_URL;
+const DB_PATH = REMOTE_URL || process.env.SALONY_DB_PATH || path.join(__dirname, 'salony.db');
+const db = REMOTE_URL
+  ? new Database(REMOTE_URL, { authToken: process.env.TURSO_AUTH_TOKEN })
+  : new Database(DB_PATH);
+if (!REMOTE_URL) db.pragma('journal_mode = WAL');
+try { db.pragma('foreign_keys = ON'); } catch { /* not supported on every remote */ }
 
 function migrate() {
   // ── salons columns ──────────────────────────────────────────────

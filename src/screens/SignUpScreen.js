@@ -102,7 +102,7 @@ export default function SignUpScreen({ navigation }) {
             />
             <Field
               icon="lock-closed-outline"
-              placeholder="Password (min 6 chars)"
+              placeholder="Password (8+ characters, letters & numbers)"
               value={password}
               onChangeText={setPassword}
               secureTextEntry

@@ -55,7 +55,7 @@ export default function BarberAIMarketingScreen({ navigation }) {
           <Text style={styles.heroSub}>Pick a template — we'll fill in your salon name, handle, and details. Share to Instagram/WhatsApp.</Text>
           <View style={styles.statusPill}>
             <Ionicons name={aiEnabled ? 'flash' : 'flash-off'} size={12} color="#fff" />
-            <Text style={styles.statusText}>{aiEnabled ? 'AI live' : 'Demo (templates only)'}</Text>
+            <Text style={styles.statusText}>{aiEnabled ? 'AI live' : 'Templates'}</Text>
           </View>
         </View>
 

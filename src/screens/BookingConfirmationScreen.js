@@ -16,7 +16,7 @@ export default function BookingConfirmationScreen({ route, navigation }) {
         </View>
         <Text style={styles.title}>Booking Confirmed</Text>
         <Text style={styles.subtitle}>
-          Your appointment at {salonName} is locked in. We'll send a reminder before it starts.
+          Your appointment at {salonName} is booked. You'll pay at the salon after your visit.
         </Text>
 
         <View style={[styles.card, shadow.card]}>

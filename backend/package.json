@@ -12,13 +12,14 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "better-sqlite3": "^11.3.0",
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
     "express": "^4.21.0",
     "express-rate-limit": "^8.5.2",
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.2",
-    "morgan": "^1.11.0"
+    "libsql": "^0.5.29",
+    "morgan": "^1.11.0",
+    "serverless-http": "^4.0.0"
   }
 }

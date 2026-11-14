@@ -99,7 +99,7 @@ export default function SalonDetailScreen({ route, navigation }) {
             <View style={styles.stat}>
               <Ionicons name="star" size={14} color="#FFD27A" />
               <Text style={styles.statText}>
-                {Number(salon.rating || 0).toFixed(1)} ({salon.reviewCount || 0})
+                {salon.reviewCount ? `${Number(salon.rating || 0).toFixed(1)} (${salon.reviewCount})` : 'New'}
               </Text>
             </View>
             {salon.distanceKm != null && (

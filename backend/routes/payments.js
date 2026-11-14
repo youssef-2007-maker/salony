@@ -19,6 +19,16 @@ const paymob = require('../payments/paymob');
 
 const router = express.Router();
 
+// Tells the app which money features are live.
+router.get('/config', (_req, res) => {
+  const f = require('../lib/features');
+  res.json({
+    payments: f.paymentsEnabled(),
+    marketplace: f.marketplaceEnabled(),
+    subscriptions: f.subscriptionsEnabled(),
+  });
+});
+
 function newReference(refType, refId) {
   return `salony-${refType}-${refId}-${crypto.randomBytes(4).toString('hex')}`;
 }

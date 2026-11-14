@@ -49,7 +49,7 @@ export default function SalonCard({ salon, onPress, wide }) {
         <View style={styles.metaRow}>
           <Ionicons name="star" size={14} color={colors.accent} />
           <Text style={styles.metaText}>
-            {Number(salon.rating || 0).toFixed(1)} ({salon.reviewCount || 0})
+            {salon.reviewCount ? `${Number(salon.rating || 0).toFixed(1)} (${salon.reviewCount})` : 'New'}
           </Text>
           {salon.distanceKm != null && (
             <Text style={[styles.metaText, { marginLeft: 8 }]}>· {salon.distanceKm} km</Text>

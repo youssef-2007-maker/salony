@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, Alert, ActivityIndicator, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ComingSoon from '../components/ComingSoon';
+import { useFeatures } from '../state/features';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radius, shadow, spacing, typography } from '../theme/colors';
 import { api } from '../api/client';
@@ -14,7 +16,7 @@ const PERKS = [
   { icon: 'medal', label: '2× points on every booking' },
 ];
 
-export default function PlusSubscriptionScreen({ navigation }) {
+function PlusSubscriptionScreenLive({ navigation }) {
   const { subscription, refresh } = useLoyalty();
   const [busy, setBusy] = useState(false);
 
@@ -157,3 +159,19 @@ const styles = StyleSheet.create({
 
   foot: { color: colors.textMuted, fontSize: 12, marginTop: spacing.md, lineHeight: 18 },
 });
+
+// Shown as "Coming soon" until the feature is switched on at the backend.
+export default function PlusSubscriptionScreen(props) {
+  const features = useFeatures();
+  if (!features.subscriptions) {
+    return (
+      <ComingSoon
+        icon="star"
+        title="Salony Plus"
+        message="Monthly perks and discounts on every booking. Launching soon."
+        onBack={() => props.navigation.goBack()}
+      />
+    );
+  }
+  return <PlusSubscriptionScreenLive {...props} />;
+}

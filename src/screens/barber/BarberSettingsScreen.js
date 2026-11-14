@@ -4,9 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radius, shadow, spacing, typography } from '../../theme/colors';
 import { api } from '../../api/client';
+import { useFeatures } from '../../state/features';
 
 export default function BarberSettingsScreen({ navigation }) {
   const [salon, setSalon] = useState(null);
+  // Deposits need in-app payments, so the option is hidden until they're live.
+  const { payments: paymentsLive } = useFeatures();
   const [busy, setBusy] = useState(false);
 
   const load = useCallback(async () => {
@@ -60,6 +63,7 @@ export default function BarberSettingsScreen({ navigation }) {
           </Text>
         </Section>
 
+        {paymentsLive ? (
         <Section title="No-show protection">
           <View style={styles.row}>
             <Text style={{ flex: 1, color: colors.text }}>Require deposit at booking</Text>
@@ -78,6 +82,7 @@ export default function BarberSettingsScreen({ navigation }) {
             </>
           ) : null}
         </Section>
+        ) : null}
 
         <Section title="At-home service">
           <View style={styles.row}>

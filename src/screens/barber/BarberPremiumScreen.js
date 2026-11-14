@@ -10,13 +10,15 @@ import {
   Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ComingSoon from '../../components/ComingSoon';
+import { useFeatures } from '../../state/features';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radius, shadow, spacing, typography } from '../../theme/colors';
 import { api } from '../../api/client';
 
 const BOOST_OPTIONS = [3, 7, 14];
 
-export default function BarberPremiumScreen({ navigation }) {
+function BarberPremiumScreenLive({ navigation }) {
   const [plans, setPlans] = useState([]);
   const [salon, setSalon] = useState(null);
   const [busy, setBusy] = useState(false);
@@ -276,3 +278,19 @@ const styles = StyleSheet.create({
 
   foot: { color: colors.textMuted, fontSize: 11, marginTop: spacing.md, lineHeight: 16 },
 });
+
+// Shown as "Coming soon" until the feature is switched on at the backend.
+export default function BarberPremiumScreen(props) {
+  const features = useFeatures();
+  if (!features.subscriptions) {
+    return (
+      <ComingSoon
+        icon="rocket"
+        title="Premium & Boost"
+        message="Premium plans and boosts to get your salon in front of more customers are launching soon."
+        onBack={() => props.navigation.goBack()}
+      />
+    );
+  }
+  return <BarberPremiumScreenLive {...props} />;
+}

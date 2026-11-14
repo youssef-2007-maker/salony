@@ -88,16 +88,30 @@ Barbers set their salon's pin from the dashboard or salon editor by tapping "Use
 
 ## Web app (live site)
 
-The same codebase builds a web app. One server hosts both the website and the API:
+Production runs for free (no card) on **Netlify** (website + API as a serverless
+function) with the data in **Turso** (hosted SQLite, kept permanently).
+
+- `netlify.toml` builds the Expo web app into `dist/` and serves the API from
+  `backend/functions/api.js` at `/api/*`.
+- Netlify environment variables (Site configuration → Environment variables):
+  - `TURSO_DATABASE_URL` — `libsql://<db>-<org>.turso.io`
+  - `TURSO_AUTH_TOKEN` — a Turso database token
+  - `JWT_SECRET` — long random string
+  - `SALONY_ENV` = `production`
+- The live database starts empty: barbers sign up, create their salon and add
+  services; customers then book. No demo data is loaded in production.
+
+Feature switches (all off unless set to `true`):
+- `MARKETPLACE_ENABLED` — the Shop tab and barber products (shows "Coming soon" when off).
+- `SUBSCRIPTIONS_ENABLED` — Salony Plus and barber Premium/Boost. Their billing is not
+  connected to a real payment yet, so keep this off for real customers.
+- In-app card payments and deposits switch on automatically once Paymob keys are set;
+  until then every booking is paid at the salon.
+
+Local development:
 
 ```bash
-npm install
-npx expo export --platform web   # builds the site into dist/
-cd backend && npm install && npm start
-# open http://localhost:4000 — the web app; the API is at /api/...
+npm install && npx expo export --platform web
+cd backend && npm install
+SALONY_AUTO_SEED=true npm start   # http://localhost:4000 with demo salons
 ```
-
-- On web the app calls the API on the same domain under `/api`; native builds keep using `/...` on `SALONY_API_URL`.
-- The site is an installable PWA (Add to Home Screen on iPhone / Install app on Android & Chrome).
-- A fresh, empty database is seeded with demo salons on first boot (`SALONY_AUTO_SEED=false` to disable).
-- Deploy: `render.yaml` at the repo root is a Render Blueprint (Render → New → Blueprint → this repo).

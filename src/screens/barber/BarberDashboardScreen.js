@@ -7,12 +7,14 @@ import { useAuth } from '../../state/AuthContext';
 import { useBookings } from '../../state/BookingsContext';
 import { useLocation } from '../../state/LocationContext';
 import { api } from '../../api/client';
+import { useFeatures } from '../../state/features';
 
 export default function BarberDashboardScreen({ navigation }) {
   const { user, signOut } = useAuth();
   const { upcoming, past, bookings, updateStatus, refresh, loading } = useBookings();
   const { coords, label, refresh: refreshLoc } = useLocation();
   const [salon, setSalon] = useState(undefined); // undefined = loading
+  const { subscriptions: subscriptionsLive } = useFeatures();
   const [refreshing, setRefreshing] = useState(false);
 
   const loadSalon = useCallback(async () => {
@@ -25,6 +27,8 @@ export default function BarberDashboardScreen({ navigation }) {
   }, []);
 
   useEffect(() => { loadSalon(); }, [loadSalon]);
+  // Reload when returning from the salon editor so a newly created salon shows up.
+  useEffect(() => navigation.addListener('focus', () => { loadSalon(); refresh(); }), [navigation, loadSalon, refresh]);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -85,6 +89,23 @@ export default function BarberDashboardScreen({ navigation }) {
               <Tool icon="settings" label="Settings" onPress={() => navigation.navigate('BarberSettings')} />
             </View>
 
+            {Array.isArray(salon.services) && salon.services.length === 0 ? (
+              <Pressable
+                onPress={() => navigation.navigate('BarberSalonEdit', { mode: 'edit' })}
+                style={[styles.promoCard, shadow.card]}
+              >
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.promoTitle}>Add your services</Text>
+                  <Text style={styles.promoSub}>Customers can book you once you list at least one service with a price.</Text>
+                </View>
+                <View style={styles.promoBtn}>
+                  <Ionicons name="add" size={14} color="#fff" />
+                  <Text style={styles.promoBtnText}>Add</Text>
+                </View>
+              </Pressable>
+            ) : null}
+
+            {subscriptionsLive ? (
             <View style={[styles.promoCard, shadow.card]}>
               <View style={{ flex: 1 }}>
                 <Text style={styles.promoTitle}>
@@ -108,6 +129,7 @@ export default function BarberDashboardScreen({ navigation }) {
                 </Text>
               </Pressable>
             </View>
+            ) : null}
 
             <View style={[styles.card, shadow.card]}>
               <View style={styles.cardHeader}>

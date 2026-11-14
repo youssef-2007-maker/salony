@@ -20,7 +20,7 @@ module.exports = ({ config }) => ({
     splash: {
       image: './assets/splash.png',
       resizeMode: 'contain',
-      backgroundColor: '#7D1A3D',
+      backgroundColor: '#651331',
     },
     assetBundlePatterns: ['**/*'],
 
@@ -54,7 +54,7 @@ module.exports = ({ config }) => ({
     android: {
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#7D1A3D',
+        backgroundColor: '#651331',
       },
       package: process.env.SALONY_ANDROID_PACKAGE || 'com.salony.app',
       versionCode: 1,
