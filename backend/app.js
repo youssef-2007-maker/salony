@@ -11,10 +11,16 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const { rateLimit, ipKeyGenerator } = require('express-rate-limit');
 
-// Client IP for rate limiting. Netlify puts the real visitor IP in its own
-// header; elsewhere Express derives it from X-Forwarded-For (trust proxy).
+// Client IP for rate limiting. Visitors arrive through the Cloudflare Worker
+// (Netlify is blocked by Egyptian ISPs), which passes the real visitor IP in
+// x-salony-client-ip. Direct Netlify traffic uses Netlify's own header;
+// elsewhere Express derives it from X-Forwarded-For (trust proxy).
 const clientKey = (req) =>
-  ipKeyGenerator(String(req.headers['x-nf-client-connection-ip'] || req.ip || '0.0.0.0'));
+  ipKeyGenerator(String(
+    req.headers['x-salony-client-ip'] ||
+    req.headers['x-nf-client-connection-ip'] ||
+    req.ip || '0.0.0.0'
+  ));
 
 const { init } = require('./db');
 const authRoutes = require('./routes/auth');
