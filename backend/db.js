@@ -16,12 +16,33 @@ const db = REMOTE_URL
 if (!REMOTE_URL) db.pragma('journal_mode = WAL');
 try { db.pragma('foreign_keys = ON'); } catch { /* not supported on every remote */ }
 
+// Column names of a table. Uses pragma_table_info() via SELECT, which works the
+// same on a local SQLite file and on a remote Turso database (a bare PRAGMA
+// statement does not return rows reliably over the remote protocol).
+function columnsOf(table) {
+  try {
+    return db.prepare(`SELECT name FROM pragma_table_info('${table}')`).all()
+      .map((c) => String(c.name || c.NAME || Object.values(c)[0] || '').toLowerCase());
+  } catch {
+    return [];
+  }
+}
+
+// ALTER TABLE ... ADD COLUMN that is safe to repeat: if the column already
+// exists, the "duplicate column" error is ignored.
+function addColumn(table, cols, name, decl) {
+  if (cols.includes(name.toLowerCase())) return;
+  try {
+    db.exec(`ALTER TABLE ${table} ADD COLUMN ${name} ${decl}`);
+  } catch (e) {
+    if (!/duplicate column/i.test(String(e && e.message))) throw e;
+  }
+}
+
 function migrate() {
   // ── salons columns ──────────────────────────────────────────────
-  const salonCols = db.prepare("PRAGMA table_info('salons')").all().map((c) => c.name);
-  const addSalon = (name, decl) => {
-    if (!salonCols.includes(name)) db.exec(`ALTER TABLE salons ADD COLUMN ${name} ${decl}`);
-  };
+  const salonCols = columnsOf('salons');
+  const addSalon = (name, decl) => addColumn('salons', salonCols, name, decl);
   addSalon('plan', "TEXT NOT NULL DEFAULT 'free'");
   addSalon('plan_until', 'TEXT');
   addSalon('boost_until', 'TEXT');
@@ -37,10 +58,8 @@ function migrate() {
   addSalon('at_home_fee', 'REAL NOT NULL DEFAULT 100');
 
   // ── users columns ───────────────────────────────────────────────
-  const userCols = db.prepare("PRAGMA table_info('users')").all().map((c) => c.name);
-  const addUser = (name, decl) => {
-    if (!userCols.includes(name)) db.exec(`ALTER TABLE users ADD COLUMN ${name} ${decl}`);
-  };
+  const userCols = columnsOf('users');
+  const addUser = (name, decl) => addColumn('users', userCols, name, decl);
   addUser('points', 'INTEGER NOT NULL DEFAULT 0');
   addUser('tier', "TEXT NOT NULL DEFAULT 'bronze'");
   addUser('lifetime_spent', 'REAL NOT NULL DEFAULT 0');
@@ -52,10 +71,8 @@ function migrate() {
   addUser('subscription_free_cuts', 'INTEGER NOT NULL DEFAULT 0');
 
   // ── bookings columns ────────────────────────────────────────────
-  const bkCols = db.prepare("PRAGMA table_info('bookings')").all().map((c) => c.name);
-  const addBk = (name, decl) => {
-    if (!bkCols.includes(name)) db.exec(`ALTER TABLE bookings ADD COLUMN ${name} ${decl}`);
-  };
+  const bkCols = columnsOf('bookings');
+  const addBk = (name, decl) => addColumn('bookings', bkCols, name, decl);
   addBk('tip', 'REAL NOT NULL DEFAULT 0');
   addBk('deposit_paid', 'REAL NOT NULL DEFAULT 0');
   addBk('points_earned', 'INTEGER NOT NULL DEFAULT 0');
